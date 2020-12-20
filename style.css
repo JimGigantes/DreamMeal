@@ -1,0 +1,65 @@
+.center-cols > .col {
+    float:none; /* disable the float */
+    display: inline-block; /* make blocks inline-block */
+    text-align: initial; /* restore text-align to default */
+  }
+
+  .card .card-image .card-title.countryCardTitle {
+    color: black;
+  }
+
+#icon{
+  position: relative;
+ 
+  display: block;
+  align-content: center;
+  
+  margin: auto;
+  
+}
+.modal-content{
+  width: auto;
+  margin: auto;
+}
+
+.card-title1{
+  width: 20%;
+  background-color: black;
+  text-align: center;
+  opacity: .85;
+  border-radius: 10%;
+}
+.transparent1{
+  background-color: transparent;
+}
+.Ingredient-list{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.foodIcon{
+position: relative;
+margin: 3%;
+display: block;
+align-content: center;
+width: 50%;
+margin: auto;
+height: 100px;
+width: 100px;
+}
+.modal {
+  height: 50vw;
+}
+.modal-close{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+}
+
+#Countries {
+  color: royalblue;
+  font-family: cursive;
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+}
+
