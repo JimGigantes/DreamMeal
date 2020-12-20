@@ -63,3 +63,24 @@ width: 100px;
   text-decoration-style: dashed;
 }
 
+#para {
+  display: block;
+  position: relative;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+
+div#map {
+  width: 560px !important;
+  height: 600px !important;
+  position: relative !important;
+  overflow: unset !important;
+}
+.clearfix  {
+  content: "";
+  display: table;
+  clear: both;
+}

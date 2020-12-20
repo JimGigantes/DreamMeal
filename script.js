@@ -7,7 +7,8 @@ $(document).ready(function() {
 		{
 			cuisine: 'American',
 			country: 'us',
-			countryInitials: 'USA'
+			countryInitials: 'USA',
+			foodSearch:"American_Food"
 		},
 		{
 			cuisine: 'British',
@@ -157,9 +158,6 @@ if (localStorage.getItem('savedCountry')){
 	})
 }
 
-
-
-
 //if you hit the close button or if you click outside of the modal it clears the contents of the modal
  $('.modal').modal({
    onCloseStart:function(){
@@ -258,7 +256,7 @@ function runTheMeal (countryMeal, mealName, cuisineCode){
                      .then(function(response) {
                         // Log the resulting object
                         console.log(response);
-                        
+                        var mealTitle = response.meals[0].strMeal
                         modalContent.append("<h1>" + response.meals[0].strMeal + "</h1>" )
                         modalContent.append("<img src='" + response.meals[0].strMealThumb + "' class='foodIcon '>" )
                         var ingredientsList = $("<ol class='Ingredient-list'>"+"<h4>Ingredients</h4>"+"</ol>");
@@ -275,16 +273,62 @@ function runTheMeal (countryMeal, mealName, cuisineCode){
                         }
                      }
                         modalContent.append(ingredientsList);
-						modalContent.append("<h4>Instructions</h4>"+"<p>" + response.meals[0].strInstructions + "</p>" )
+						modalContent.append(`<h4>Instructions</h4><p id='para'>${response.meals[0].strInstructions}  </p>  <div id='map'></div> ` )
 						$(".modal-footer").append("<a href='#!' class='save-btn waves-effect waves-purple btn-flat'>Save</a>")
 						$('.save-btn').click(function () {
-							saveToLocal(mealName, cuisineCode)
-							
-								  
+							saveToLocal(mealName, cuisineCode)	  
 						});
+						
+						console.log(mealTitle)	
+						addMarker(mealTitle);
+						
 
                       })
-
    }
+
+ function addMarker(mealTitle){
+	map = new google.maps.Map(document.getElementById("map"), {
+		center: { lat: -34.397, lng: 150.644 },
+		zoom: 6,
+	  });
+	  infoWindow = new google.maps.InfoWindow();
+	  const locationButton = document.createElement("button");
+	  locationButton.textContent = "Pan to Current Location";
+	  locationButton.classList.add("custom-map-control-button");
+	  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+	  locationButton.addEventListener("click", () => {
+		// Try HTML5 geolocation.
+		if (navigator.geolocation) {
+		  navigator.geolocation.getCurrentPosition(
+			(position) => {
+			  const pos = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			  };
+			  infoWindow.setPosition(pos);
+			  infoWindow.setContent("Location found.");
+			  infoWindow.open(map);
+			  map.setCenter(pos);
+			},
+			() => {
+			  handleLocationError(true, infoWindow, map.getCenter());
+			}
+		  );
+		} else {
+		  // Browser doesn't support Geolocation
+		  handleLocationError(false, infoWindow, map.getCenter());
+		}
+	  });
+	}
+	
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	  infoWindow.setPosition(pos);
+	  infoWindow.setContent(
+		browserHasGeolocation
+		  ? "Error: The Geolocation service failed."
+		  : "Error: Your browser doesn't support geolocation."
+	  );
+	  infoWindow.open(map);
+	}
 
 })
